@@ -97,6 +97,8 @@ const float textureVert[] =
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
 @property (weak, nonatomic) IBOutlet UIButton *selectButton;
 @property (strong, nonatomic) UIImageView *snapshotView;
+@property (weak, nonatomic) IBOutlet UIButton *lButton;
+@property (weak, nonatomic) IBOutlet UIButton *rButton;
 
 - (IBAction)hideEmulator:(id)sender;
 - (IBAction)onButtonUp:(UIControl*)sender;
@@ -204,11 +206,24 @@ const float textureVert[] =
             self.fpsLabel.frame = CGRectMake(70, 0, 70, 24);
         } else if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
         {
-            self.controllerContainerView.frame = CGRectMake(0, (self.view.bounds.size.height/2)-150, self.view.bounds.size.width, 300);
-            self.directionalControl.center = CGPointMake(66, 150);
-            self.buttonControl.center = CGPointMake(self.view.bounds.size.width-66, 150);
-            self.startButton.center = CGPointMake(self.view.bounds.size.width-102, 258);
-            self.selectButton.center = CGPointMake(self.view.bounds.size.width-102, 226);
+            // TODO
+            self.controllerContainerView.frame = CGRectMake(0, (self.view.bounds.size.height/2)-150, self.view.bounds.size.width, (self.view.bounds.size.height/2)+150);
+            NSLog(@"width = %f, height = %f", self.directionalControl.bounds.size.width, self.directionalControl.bounds.size.height);
+            
+            int currentHeight = 100;
+            self.lButton.center = CGPointMake(6+(int)self.lButton.bounds.size.width/2, currentHeight);
+            self.rButton.center = CGPointMake(self.view.bounds.size.width-(int)self.lButton.bounds.size.width/2-6, currentHeight);
+            currentHeight += (int)self.lButton.bounds.size.height/2 + 10;
+            
+            self.directionalControl.center = CGPointMake(6+(int)self.directionalControl.bounds.size.width/2, currentHeight+(int)self.directionalControl.bounds.size.height/2);
+            self.buttonControl.center = CGPointMake(self.view.bounds.size.width-6-(int)self.buttonControl.bounds.size.width/2, currentHeight+(int)self.buttonControl.bounds.size.height/2);
+            currentHeight += (int)self.directionalControl.bounds.size.height + 10;
+            
+            self.startButton.center = CGPointMake(self.view.bounds.size.width-102, currentHeight+(int)self.startButton.bounds.size.height/2);
+            currentHeight += (int)self.startButton.bounds.size.height + 10;
+            
+            self.selectButton.center = CGPointMake(self.view.bounds.size.width-102, currentHeight+(int)self.selectButton.bounds.size.height/2);
+            
             self.controllerContainerView.alpha = self.dismissButton.alpha = 1.0;
             self.fpsLabel.frame = CGRectMake(185, 5, 70, 24);
         }
